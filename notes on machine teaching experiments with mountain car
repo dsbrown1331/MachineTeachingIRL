@@ -1,0 +1,15 @@
+need to compute the feature counts using one feature for optimal policy given by sutton.
+
+pickle the optimal policy. DONE
+sample from gym to perform rollouts of feature
+-need to be able to start an env from anywhere. DONE: I just change random seed for env
+-need to be able to restart there and pick a different action. DONE: I remake the environment with same seed and pick new action
+-need to run monte-carlo estimates of feature counts TODO: not sure if I need more than one rollout if not stochastic
+
+TODO: then need to compute half-space constraints associated with each (state,action)?
+TODO: add constraints to list and normalize and remove duplicates
+TODO: use linear programming to remove redundancies
+TODO: how do I actually run set cover? I need to know what my elements are to choose from (the random start states) and the optimal actions taken and what constraints they cover...Is this right since I'll have an entire trajectory, but only from one start state and I wont have the alternatives along the way, unless I can start the sim at any point. Thus, this may only work for single-state-action pairs, since a full trajectory would give a lot more info, potentially... So I need to keep data structure with (s,a) -> constraints stored and use this to perform set cover...
+
+TODO: can I create mountain car so I can start episode any particular place...Probably using init(), but where is this called? YES. I just need to add a method that initialize_start_state() that can override the initial position and probably calls reset() inside to reset done etc. Essentially create a new _reset() in mcar, I think this will work well, then I can do this within a single env rather than always calling a new one. This will also allow a single trajectory from initial start state to be used with MC feature count sampling to figure out feasible region given by entire trajectory. 
+
